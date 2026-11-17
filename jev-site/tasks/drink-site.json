@@ -1,0 +1,18 @@
+{
+  "id": "drink-site",
+  "goal": {
+    "intent": "add_page",
+    "pages": ["home", "products", "delivery", "contact"],
+    "brand": { "name": "บริษัทน้ำดื่ม", "tagline": "น้ำดื่มสะอาด สดชื่นได้ทุกวัน", "phone": "087-134-6337", "color": "#087fce" },
+    "content": {
+      "products": { "title": "สินค้า", "description": "น้ำขวดและน้ำถังสำหรับบ้าน สำนักงาน และร้านค้า", "body": "<h1>สินค้าของเรา</h1>\n<p>น้ำขวดสำหรับพกพาและงานกิจกรรม น้ำถังสำหรับบ้านและสำนักงาน</p>" },
+      "delivery": { "title": "การจัดส่ง", "description": "พื้นที่และรอบการจัดส่งน้ำดื่ม", "body": "<h1>การจัดส่ง</h1>\n<p>โทรสั่งก่อน 10:00 น. รับสินค้าภายในวัน</p>" },
+      "contact": { "title": "ติดต่อเรา", "description": "โทรสอบถามและสั่งซื้อน้ำดื่ม", "body": "<h1>ติดต่อเรา</h1>\n<p><a href=\"tel:0871346337\">☎ 087-134-6337</a></p>" }
+    }
+  },
+  "notes": { "cutoff": false },
+  "evidence": { "fresh": false },
+  "gaps": { "missing": [] },
+  "deadline": null,
+  "seed": ["../../index.html"]
+}
