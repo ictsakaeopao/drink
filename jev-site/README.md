@@ -55,17 +55,31 @@ task.json ─► ROUTER (JEV-1.13.0) ─► GATE ≥ 0.85 ─► DISPATCH (8 wor
 - ถ้าลงชื่อแบบ `--reject` ผลตรวจจะถูกตั้งเป็นไม่สด แล้วส่งงานกลับเข้าวงจรด้วย `resume`
 - `jev overdue [นาที]` แจ้ง draft ที่ถูกกักนานเกินระยะตรวจ (ค่าเริ่มต้น 30 นาที) และ exit code 2 จึงเอาไปต่อกับ cron หรือ CI ได้
 
+## แดชบอร์ด Human Review
+
+```bash
+node bin/jev.js serve          # http://127.0.0.1:4173  (เปลี่ยนพอร์ต: serve 8080, เปิดให้เครื่องอื่น: HOST=0.0.0.0)
+```
+
+- แสดงทุกงาน: สถานะ, เหตุที่ถูกกัก, ผลการรูทล่าสุด (next_worker / urgency / safe_to_run / confidence), ผลตรวจ และประวัติทุกขั้น
+- พรีวิวทุกหน้าใน workspace แยกเป็นแท็บ (เสิร์ฟด้วย CSP `sandbox` จึงแตะแดชบอร์ดไม่ได้ และกันการอ่านไฟล์นอก workspace)
+- ปุ่มเปลี่ยนตามสถานะ: **อนุมัติ / ตีกลับ** (ตีกลับต้องมีเหตุผล) → **resume** → **เผยแพร่**
+- ต้องกรอกชื่อผู้ตรวจก่อนลงชื่อ (จำไว้ในเบราว์เซอร์), กันกดซ้ำขณะงานเดียวกันกำลังทำ
+- แถบเตือนด้านบนเมื่อมี draft ค้างเกินระยะตรวจ, รีเฟรชอัตโนมัติทุก 15 วินาที (หยุดชั่วคราวขณะพิมพ์)
+- ไม่มีระบบล็อกอิน: ค่าเริ่มต้นจึงผูกกับ 127.0.0.1 เท่านั้น ถ้าจะเปิดให้ทีมใช้ ควรวางหลัง reverse proxy ที่มีการยืนยันตัวตน
+
 ## ใช้งาน
 
 ```bash
 cd jev-site
-npm test                                   # ทดสอบ 9 ชุด
+npm test                                   # ทดสอบ 12 ชุด (router, dispatch, state, แดชบอร์ด)
 node bin/jev.js run tasks/drink-site.json  # ต่อยอดเว็บน้ำดื่ม: เพิ่ม products/delivery/contact
 node bin/jev.js status
 node bin/jev.js sign drink-site "ชื่อผู้ตรวจ"            # อนุมัติ
 node bin/jev.js sign drink-site "ชื่อ" --reject "แก้ราคา"  # ตีกลับ แล้ว: node bin/jev.js resume drink-site
 node bin/jev.js overdue 30
 node bin/jev.js publish drink-site         # → .jev/dist/drink-site/
+node bin/jev.js serve                      # หรือทำทั้งหมดนี้ผ่านแดชบอร์ด
 ```
 
 `seed` ใน task จะคัดลอกไฟล์เว็บเดิม (`../index.html`) เข้า workspace ของงาน ระบบจึงไม่แตะต้นฉบับ
