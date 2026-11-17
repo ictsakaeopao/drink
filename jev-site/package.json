@@ -1,0 +1,13 @@
+{
+  "name": "jev-site-router",
+  "version": "1.13.0",
+  "description": "JEV agent-router สำหรับการสร้างเว็บไซต์: plan → build → revise → review → human sign-off",
+  "type": "module",
+  "bin": { "jev": "bin/jev.js" },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "demo": "node bin/jev.js run tasks/drink-site.json"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}
